@@ -1,7 +1,7 @@
 {
   "C_Cpp.intelliSenseEngine": "default",
   "idf.espIdfPath": "/Users/parthiv/esp/v5.4.1/esp-idf",
-  "idf.pythonInstallPath": "/opt/homebrew/bin/python3",
+  "idf.pythonInstallPath": "/opt/esp/python_env/idf6.0_py3.12_env/bin/python",
   "idf.openOcdConfigs": [
     "interface/ftdi/esp32_devkitj_v1.cfg",
     "target/esp32.cfg"
