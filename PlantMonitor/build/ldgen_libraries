@@ -157,6 +157,4 @@
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/spiffs/libspiffs.a
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/wifi_provisioning/libwifi_provisioning.a
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/json/libjson.a
-/workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/espressif__esp_jpeg/libespressif__esp_jpeg.a
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/main/libmain.a
-/workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/espressif__esp_jpeg/libespressif__esp_jpeg.a

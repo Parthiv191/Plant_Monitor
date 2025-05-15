@@ -1,0 +1,2 @@
+source /workspaces/Plant_Monitor/PlantMonitor/build/bootloader/gdbinit/symbols
+source /workspaces/Plant_Monitor/PlantMonitor/build/bootloader/gdbinit/connect

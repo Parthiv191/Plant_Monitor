@@ -838,13 +838,6 @@
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/wifi_provisioning/CMakeFiles/install.dir
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/wifi_provisioning/CMakeFiles/install/local.dir
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/wifi_provisioning/CMakeFiles/install/strip.dir
-/workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/espressif__esp_jpeg/CMakeFiles/__idf_espressif__esp_jpeg.dir
-/workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/espressif__esp_jpeg/CMakeFiles/edit_cache.dir
-/workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/espressif__esp_jpeg/CMakeFiles/rebuild_cache.dir
-/workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/espressif__esp_jpeg/CMakeFiles/list_install_components.dir
-/workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/espressif__esp_jpeg/CMakeFiles/install.dir
-/workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/espressif__esp_jpeg/CMakeFiles/install/local.dir
-/workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/espressif__esp_jpeg/CMakeFiles/install/strip.dir
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/main/CMakeFiles/__idf_main.dir
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/main/CMakeFiles/edit_cache.dir
 /workspaces/Plant_Monitor/PlantMonitor/build/esp-idf/main/CMakeFiles/rebuild_cache.dir

@@ -435,15 +435,6 @@ CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
 
 #
-# Example Configuration
-#
-CONFIG_LCD_TYPE_AUTO=y
-# CONFIG_LCD_TYPE_ST7789V is not set
-# CONFIG_LCD_TYPE_ILI9341 is not set
-# CONFIG_LCD_OVERCLOCK is not set
-# end of Example Configuration
-
-#
 # Compiler options
 #
 CONFIG_COMPILER_OPTIMIZATION_DEBUG=y
@@ -2013,12 +2004,6 @@ CONFIG_WIFI_PROV_AUTOSTOP_TIMEOUT=30
 CONFIG_WIFI_PROV_STA_ALL_CHANNEL_SCAN=y
 # CONFIG_WIFI_PROV_STA_FAST_SCAN is not set
 # end of Wi-Fi Provisioning Manager
-
-#
-# JPEG Decoder
-#
-CONFIG_JD_USE_ROM=y
-# end of JPEG Decoder
 # end of Component config
 
 # CONFIG_IDF_EXPERIMENTAL_FEATURES is not set

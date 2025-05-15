@@ -15,7 +15,10 @@
 ########################
 
 //No help, variable specified on the command line.
-CCACHE_ENABLE:UNINITIALIZED=0
+CCACHE_ENABLE:UNINITIALIZED=1
+
+//Path to a program.
+CCACHE_FOUND:FILEPATH=/usr/bin/ccache
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/opt/esp/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32-elf-addr2line
@@ -364,6 +367,9 @@ PlantMonitor_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 PlantMonitor_SOURCE_DIR:STATIC=/workspaces/Plant_Monitor/PlantMonitor
 
+//No help, variable specified on the command line.
+SDKCONFIG:UNINITIALIZED=/workspaces/Plant_Monitor/PlantMonitor/sdkconfig
+
 //Allow unsafe builds. These builds ARE NOT SECURE.
 UNSAFE_BUILD:BOOL=OFF
 
@@ -545,7 +551,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=120
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=119
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
