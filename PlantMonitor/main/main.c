@@ -2,7 +2,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
-#include "dht.h"  // Include DHT11 driver header
+#include <dht.h>  // Include DHT11 driver header
 
 // Define which GPIO the DHT11 data line is connected to
 #define DHT_GPIO GPIO_NUM_4
