@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/CMakeFiles/bootloader"
+		},
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/CMakeFiles/bootloader.rule"
+		},
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/CMakeFiles/bootloader-complete.rule"
+		},
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+		},
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+		},
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+		},
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+		},
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+		},
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+		},
+		{
+			"file" : "/Users/parthiv/Dev Tings/Plant_Monitor/Plant Monitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"bootloader"
+		],
+		"name" : "bootloader"
+	}
+}

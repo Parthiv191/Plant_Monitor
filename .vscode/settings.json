@@ -1,0 +1,7 @@
+{
+    "idf.pythonInstallPath": "/opt/homebrew/bin/python3",
+    "idf.flashType": "UART",
+    "idf.port": "/dev/tty.usbserial-0001",
+    "idf.espIdfPath": "/Users/parthiv/esp/v5.4.1/esp-idf",
+    "idf.toolsPath": "/Users/parthiv/.espressif"
+}
