@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "PlantMonitor",
-    "project_version":    "e68b510-dirty",
+    "project_version":    "fe65250-dirty",
     "project_path":       "/workspaces/Plant_Monitor/PlantMonitor",
     "idf_path":           "/opt/esp/idf",
     "build_dir":          "/workspaces/Plant_Monitor/PlantMonitor/build",
