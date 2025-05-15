@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/workspaces/Plant_Monitor/PlantMonitor/build/CMakeFiles/bootloader
+/workspaces/Plant_Monitor/PlantMonitor/build/CMakeFiles/bootloader.rule
+/workspaces/Plant_Monitor/PlantMonitor/build/CMakeFiles/bootloader-complete.rule
+/workspaces/Plant_Monitor/PlantMonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/workspaces/Plant_Monitor/PlantMonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/workspaces/Plant_Monitor/PlantMonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/workspaces/Plant_Monitor/PlantMonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/workspaces/Plant_Monitor/PlantMonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/workspaces/Plant_Monitor/PlantMonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/workspaces/Plant_Monitor/PlantMonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
