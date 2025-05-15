@@ -1,4 +1,10 @@
-When you change code
+When you open
+     - git pull
+     - cd PlantMonitor
+     - (cmd + shift + p) or type > in the bar at the top
+     - type "reopen in container" and click on docker rebuild or reopen in container
+
+When you make a change 
 
 Check status 
       git status
