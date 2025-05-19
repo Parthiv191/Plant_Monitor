@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/Users/parthiv/plantmonitor/build/CMakeFiles/bootloader
+/Users/parthiv/plantmonitor/build/CMakeFiles/bootloader.rule
+/Users/parthiv/plantmonitor/build/CMakeFiles/bootloader-complete.rule
+/Users/parthiv/plantmonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/Users/parthiv/plantmonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/Users/parthiv/plantmonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/Users/parthiv/plantmonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/Users/parthiv/plantmonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/Users/parthiv/plantmonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/Users/parthiv/plantmonitor/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
