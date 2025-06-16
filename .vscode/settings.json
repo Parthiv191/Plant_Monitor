@@ -6,10 +6,11 @@
     "interface/ftdi/esp32_devkitj_v1.cfg",
     "target/esp32.cfg"
   ],
-  "idf.port": "/dev/tty.usbserial-0001",
+  "idf.port": "/dev/tty.Bluetooth-Incoming-Port",
   "idf.toolsPath": "/Users/parthiv/.espressif",
   "idf.customExtraVars": {
     "IDF_TARGET": "esp32"
   },
-  "idf.flashType": "UART"
+  "idf.flashType": "UART",
+  "idf.monitorPort": "/dev/tty.wlan-debug"
 }
