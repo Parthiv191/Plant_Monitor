@@ -3,7 +3,8 @@
   "idf.espIdfPath": "/Users/parthiv/esp/v5.4.1/esp-idf",
   "idf.pythonInstallPath": "/opt/homebrew/bin/python3",
   "idf.openOcdConfigs": [
-    "board/esp32-wrover-kit-3.3v.cfg"
+    "interface/ftdi/esp32_devkitj_v1.cfg",
+    "target/esp32.cfg"
   ],
   "idf.port": "/dev/tty.usbserial-0001",
   "idf.toolsPath": "/Users/parthiv/.espressif",
@@ -11,5 +12,5 @@
     "IDF_TARGET": "esp32"
   },
   "idf.flashType": "UART",
-  "idf.monitorPort": "/dev/tty.debug-console"
+  "idf.monitorPort": "/dev/tty.wlan-debug"
 }
