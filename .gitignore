@@ -2,3 +2,6 @@ sdkconfig
 sdkconfig.old
 build/
 esp-idf-lib/
+sdkconfig.ci
+.vscode/
+.devcontainer/
