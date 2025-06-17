@@ -1,0 +1,2 @@
+source /Users/parthiv/Dev_Tings/Plant_Monitor/build/bootloader/gdbinit/symbols
+source /Users/parthiv/Dev_Tings/Plant_Monitor/build/bootloader/gdbinit/connect

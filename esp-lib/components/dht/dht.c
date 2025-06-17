@@ -253,7 +253,7 @@ esp_err_t dht_read_float_data(dht_sensor_type_t sensor_type, gpio_num_t pin,
     if (humidity)
         *humidity = i_humidity / 10.0;
     if (temperature)
-        *temperature = ((i_temp / 10.0)* 9/5) + 32; // Convert to Fahrenheit
+        *temperature = i_temp / 10.0;
 
     return ESP_OK;
 }

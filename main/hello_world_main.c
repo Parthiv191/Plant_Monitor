@@ -6,27 +6,29 @@
 #define SENSOR_TYPE DHT_TYPE_DHT11
 #define DHT_GPIO_PIN GPIO_NUM_26
 
-void sensor_test(void *pvParameters)
+void dht_test(void *pvParameters)
 {
     float temperature, humidity;
+
+    printf("DHT Sensor Test\n");
 
     while (1)
     {
         if (dht_read_float_data(SENSOR_TYPE, DHT_GPIO_PIN, &humidity, &temperature) == ESP_OK) 
         {
-            //float temp = (temperature * 9/5) + 32; // Convert to Fahrenheit
-            printf("Humidity: %.1f%% Temp: %.1fF\n", humidity, temperature);
+            float temp = (temperature * 9/5) + 32; // Convert to Fahrenheit
+            printf("Humidity: %.1f%% Temp: %.1fF\n", humidity, temp);
         }
         else 
         {
             printf("Could not read data from sensor\n");
         }
 
-        vTaskDelay(pdMS_TO_TICKS(20000));
+        vTaskDelay(pdMS_TO_TICKS(2000));
     }
 }
 
 void app_main(void)
 {
-    xTaskCreate(sensor_test, "sensor_test", configMINIMAL_STACK_SIZE * 3, NULL, 5, NULL);
+    xTaskCreate(dht_test, "dht_test", configMINIMAL_STACK_SIZE * 3, NULL, 5, NULL);
 }
