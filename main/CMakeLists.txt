@@ -3,4 +3,5 @@ idf_component_register(
     INCLUDE_DIRS "."
     REQUIRES dht
     REQUIRES esp_adc
+    REQUIRES analysis
 )

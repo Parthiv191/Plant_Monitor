@@ -2,6 +2,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <dht.h>
+#include <analysis.h>
 #include <esp_adc/adc_continuous.h>
 #include <esp_log.h>
 
@@ -74,7 +75,7 @@ static float read_light_percentage(uint8_t *result, uint32_t length) {
 }
 
 void sensor_test(void *pvParameters) {
-    float temperature, humidity;
+    float temperature, humidity, light_percentage;
     uint8_t result[256] = {0};
     uint32_t o_length = 0;
 
@@ -85,20 +86,21 @@ void sensor_test(void *pvParameters) {
         // Read DHT sensor
         if (dht_read_float_data(SENSOR_TYPE, DHT_GPIO_PIN, &humidity, &temperature) == ESP_OK) {
             float temp_f = (temperature * 9/5) + 32;
-            ESP_LOGI(TAG, "Humidity: %.1f%% Temp: %.1fF", humidity, temp_f);
+            //ESP_LOGI(TAG, "Humidity: %.1f%% Temp: %.1fF", humidity, temp_f);
         } else {
             ESP_LOGE(TAG, "Could not read DHT sensor");
         }
 
         // Read light sensor
         if (adc_continuous_read(handle, result, 256, &o_length, 1000) == ESP_OK) {
-            float light_percentage = read_light_percentage(result, o_length);
-            ESP_LOGI(TAG, "Light Level: %.1f%%", light_percentage);
+            light_percentage = read_light_percentage(result, o_length);
+            //ESP_LOGI(TAG, "Light Level: %.1f%%", light_percentage);
         } else {
             ESP_LOGE(TAG, "ADC read failed");
         }
-        
-        analyse_data(temp_f, humidity, light_percentage);
+
+        // Analyze data
+        analyse_data(&temperature, &humidity, &light_percentage);
 
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
