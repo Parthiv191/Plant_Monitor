@@ -97,6 +97,8 @@ void sensor_test(void *pvParameters) {
         } else {
             ESP_LOGE(TAG, "ADC read failed");
         }
+        
+        analyse_data(temp_f, humidity, light_percentage);
 
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
