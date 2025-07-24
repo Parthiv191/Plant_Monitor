@@ -3,8 +3,8 @@
 
 #include <esp_log.h>
 
-void analyse_data(float *temperature, float *humidity, float *light);
+void analyse_data(float *temperature, float *humidity, float *light, float *soil);
 
-void print_analysis(float *temperature, float *humidity, float *light);
+void print_analysis(float *temperature, float *humidity, float *light, float *soil);
 
 #endif // ANALYSIS_H

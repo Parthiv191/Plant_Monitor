@@ -8,7 +8,8 @@
 
 #define SENSOR_TYPE DHT_TYPE_DHT11
 #define DHT_GPIO_PIN GPIO_NUM_26
-#define LIGHT_SENSOR_CHANNEL ADC_CHANNEL_0
+#define LIGHT_SENSOR_CHANNEL ADC_CHANNEL_0 //GPIO_NUM_36  Pin 14
+#define SOIL_SENSOR_CHANNEL ADC_CHANNEL_3 //GPIO_NUM_39 // Pin 15
 #define ADC_UNIT ADC_UNIT_1
 #define ADC_ATTEN ADC_ATTEN_DB_12
 
@@ -22,22 +23,30 @@ static bool IRAM_ATTR s_conv_done_cb(adc_continuous_handle_t handle, const adc_c
 
 static void init_adc(void) {
     adc_continuous_handle_cfg_t adc_config = {
-    .max_store_buf_size = 1024,
-    .conv_frame_size = 256,
+        .max_store_buf_size = 1024,
+        .conv_frame_size = 256,
     };
-
     ESP_ERROR_CHECK(adc_continuous_new_handle(&adc_config, &handle));
 
-    adc_digi_pattern_config_t adc_pattern = {
-        .atten = ADC_ATTEN,
-        .channel = LIGHT_SENSOR_CHANNEL,
-        .unit = ADC_UNIT,
-        .bit_width = SOC_ADC_DIGI_MAX_BITWIDTH,
+    // Configure both channels
+    adc_digi_pattern_config_t adc_patterns[2] = {
+        {
+            .atten = ADC_ATTEN,
+            .channel = LIGHT_SENSOR_CHANNEL,
+            .unit = ADC_UNIT,
+            .bit_width = SOC_ADC_DIGI_MAX_BITWIDTH,
+        },
+        {
+            .atten = ADC_ATTEN,
+            .channel = SOIL_SENSOR_CHANNEL,
+            .unit = ADC_UNIT,
+            .bit_width = SOC_ADC_DIGI_MAX_BITWIDTH,
+        }
     };
 
     adc_continuous_config_t dig_cfg = {
-        .pattern_num = 1,
-        .adc_pattern = &adc_pattern,
+        .pattern_num = 2,
+        .adc_pattern = adc_patterns,
         .sample_freq_hz = 20000,
         .conv_mode = ADC_CONV_SINGLE_UNIT_1,
         .format = ADC_DIGI_OUTPUT_FORMAT_TYPE1,
@@ -49,33 +58,30 @@ static void init_adc(void) {
         .on_conv_done = s_conv_done_cb,
         .on_pool_ovf = NULL,
     };
-
     ESP_ERROR_CHECK(adc_continuous_register_event_callbacks(handle, &cbs, NULL));
 }
 
-static float read_light_percentage(uint8_t *result, uint32_t length) {
-    uint32_t sum = 0;
-    uint32_t count = 0;
-    
+static void parse_adc_results(uint8_t *result, uint32_t length, float *light, float *soil) {
+    uint32_t sum_light = 0, count_light = 0;
+    uint32_t sum_soil = 0, count_soil = 0;
+
     for (int i = 0; i < length; i += SOC_ADC_DIGI_RESULT_BYTES) {
         adc_digi_output_data_t *p = (void*)&result[i];
         if (p->type1.channel == LIGHT_SENSOR_CHANNEL) {
-            sum += p->type1.data;
-            count++;
+            sum_light += p->type1.data;
+            count_light++;
+        } else if (p->type1.channel == SOIL_SENSOR_CHANNEL) {
+            sum_soil += p->type1.data;
+            count_soil++;
         }
     }
-    
-    if (count == 0) return 0;
-    
-    float avg_raw = (float)sum / count;
-    // Convert to percentage (0% = dark, 100% = bright)
-    // Assuming 12-bit ADC (0-4095 range)
-    float percentage = (avg_raw / 4095.0f) * 100.0f;
-    return percentage;
+
+    *light = (count_light > 0) ? ((float)sum_light / count_light / 4095.0f * 100.0f) : 0;
+    *soil  = (count_soil  > 0) ? (100.0f - ((float)sum_soil  / count_soil  / 4095.0f * 100.0f)) : 0;
 }
 
 void sensor_test(void *pvParameters) {
-    float temperature, humidity, light_percentage;
+    float temperature, humidity, light_percentage, soil_percentage;
     uint8_t result[256] = {0};
     uint32_t o_length = 0;
 
@@ -84,23 +90,23 @@ void sensor_test(void *pvParameters) {
 
     while (1) {
         // Read DHT sensor
-        if (dht_read_float_data(SENSOR_TYPE, DHT_GPIO_PIN, &humidity, &temperature) == ESP_OK) {
-            float temp_f = (temperature * 9/5) + 32;
-            //ESP_LOGI(TAG, "Humidity: %.1f%% Temp: %.1fF", humidity, temp_f);
-        } else {
+        if (dht_read_float_data(SENSOR_TYPE, DHT_GPIO_PIN, &humidity, &temperature) == ESP_OK) 
+        {
+        } 
+        else 
+        {
             ESP_LOGE(TAG, "Could not read DHT sensor");
         }
 
-        // Read light sensor
+        // Read light and soil sensors
         if (adc_continuous_read(handle, result, 256, &o_length, 1000) == ESP_OK) {
-            light_percentage = read_light_percentage(result, o_length);
-            //ESP_LOGI(TAG, "Light Level: %.1f%%", light_percentage);
+            parse_adc_results(result, o_length, &light_percentage, &soil_percentage);
         } else {
             ESP_LOGE(TAG, "ADC read failed");
         }
 
         // Analyze data
-        analyse_data(&temperature, &humidity, &light_percentage);
+        analyse_data(&temperature, &humidity, &light_percentage, &soil_percentage);
 
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
