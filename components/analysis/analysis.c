@@ -42,8 +42,10 @@ void analyse_data(float *temperature, float *humidity, float *light, float *soil
 
 
 void print_analysis(float *temperature, float *humidity, float *light, float *soil) {
+    //convert the temperature from celsius to fahrenheit
+    float temp_fahrenheit = (*temperature * 9.0f / 5.0f) + 32.0f;
     ESP_LOGI(TAG, "ANALYSIS:");
-    ESP_LOGI(TAG, "Temperature: %.2f °C Status: %s", *temperature, temp_status);
+    ESP_LOGI(TAG, "Temperature: %.2f °C (%.2f °F) Status: %s", *temperature, temp_fahrenheit, temp_status);
     ESP_LOGI(TAG, "Humidity: %.2f %% Status: %s", *humidity, humidity_status);
     ESP_LOGI(TAG, "Light: %.2f Status: %s", *light, light_status);
     ESP_LOGI(TAG, "Soil: %.2f Status: %s", *soil, soil_status);

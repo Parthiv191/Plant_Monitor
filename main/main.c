@@ -5,6 +5,7 @@
 #include <analysis.h>
 #include <esp_adc/adc_continuous.h>
 #include <esp_log.h>
+#include <esp_timer.h>
 
 #define SENSOR_TYPE DHT_TYPE_DHT11
 #define DHT_GPIO_PIN GPIO_NUM_26
@@ -13,7 +14,7 @@
 #define ADC_UNIT ADC_UNIT_1
 #define ADC_ATTEN ADC_ATTEN_DB_12
 
-static const char *TAG = "PlantMonitor";
+static const char *TAG = "PlantMonitor"; 
 
 adc_continuous_handle_t handle = NULL;
 
@@ -80,7 +81,10 @@ static void parse_adc_results(uint8_t *result, uint32_t length, float *light, fl
     *soil  = (count_soil  > 0) ? (100.0f - ((float)sum_soil  / count_soil  / 4095.0f * 100.0f)) : 0;
 }
 
-void sensor_test(void *pvParameters) {
+
+void sensor_test(void *args);
+
+void sensor_test(void *arg) {
     float temperature, humidity, light_percentage, soil_percentage;
     uint8_t result[256] = {0};
     uint32_t o_length = 0;
@@ -112,9 +116,25 @@ void sensor_test(void *pvParameters) {
     }
 }
 
+static esp_timer_handle_t periodic_light_timer;
+
+
+
+static void init_periodic_timer() {
+    const esp_timer_create_args_t timer_args = {
+        .callback = &sensor_test,
+        .arg = NULL,
+        .dispatch_method = ESP_TIMER_TASK,
+        .name = "light_timer"
+    };
+
+    ESP_ERROR_CHECK(esp_timer_create(&timer_args, &periodic_light_timer));
+    ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_light_timer, 30 * 60 * 1000000)); // 30 minutes in microseconds
+}
+
 void app_main(void)
 {
     init_adc();
-
+    init_periodic_timer();
     xTaskCreate(sensor_test, "sensor_test", configMINIMAL_STACK_SIZE * 3, NULL, 5, NULL);
 }

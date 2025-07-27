@@ -4,4 +4,5 @@ idf_component_register(
     REQUIRES dht
     REQUIRES esp_adc
     REQUIRES analysis
+    REQUIRES esp_timer
 )
