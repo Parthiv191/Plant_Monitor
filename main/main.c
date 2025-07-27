@@ -16,6 +16,10 @@
 
 static const char *TAG = "PlantMonitor"; 
 
+// Array to store 48 light readings (once every 30 minutes for 24 hours)
+static float daily_light_data[48];
+static int light_read_count = 0;
+
 adc_continuous_handle_t handle = NULL;
 
 static bool IRAM_ATTR s_conv_done_cb(adc_continuous_handle_t handle, const adc_continuous_evt_data_t *edata, void *user_data) {
@@ -86,6 +90,7 @@ void sensor_test(void *args);
 
 void sensor_test(void *arg) {
     float temperature, humidity, light_percentage, soil_percentage;
+    float avg_light;
     uint8_t result[256] = {0};
     uint32_t o_length = 0;
 
@@ -109,10 +114,21 @@ void sensor_test(void *arg) {
             ESP_LOGE(TAG, "ADC read failed");
         }
 
-        // Analyze data
-        analyse_data(&temperature, &humidity, &light_percentage, &soil_percentage);
+        // Store light_percentage in daily_light_data array
+        if (light_read_count < 48) {
+            daily_light_data[light_read_count++] = light_percentage;
+        }
 
-        vTaskDelay(pdMS_TO_TICKS(2000));
+        avg_light = light_percentage;
+        if (light_read_count == 48) {
+            float sum = 0;
+            for (int i = 0; i < 48; i++) sum += daily_light_data[i];
+            avg_light = sum / 48.0f;
+            light_read_count = 0; // reset counter
+        }
+
+        // Analyze data with avg_light if 48 samples reached, else with latest light_percentage
+        analyse_data(&temperature, &humidity, &avg_light, &soil_percentage);
     }
 }
 
@@ -136,5 +152,4 @@ void app_main(void)
 {
     init_adc();
     init_periodic_timer();
-    xTaskCreate(sensor_test, "sensor_test", configMINIMAL_STACK_SIZE * 3, NULL, 5, NULL);
 }

@@ -35,7 +35,13 @@ void analyse_data(float *temperature, float *humidity, float *light, float *soil
         snprintf(soil_status, sizeof(soil_status), "%s\n", "Good");
     }
 
-    snprintf(light_status, sizeof(light_status), "%s\n", "Sug");
+    if (*light < 20) {
+        snprintf(light_status, sizeof(light_status), "%s\n", "Low");
+    } else if (*light > 50) {
+        snprintf(light_status, sizeof(light_status), "%s\n", "High");
+    } else {
+        snprintf(light_status, sizeof(light_status), "%s\n", "Good");
+    }
 
     print_analysis(temperature, humidity, light, soil);
 }
