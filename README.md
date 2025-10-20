@@ -2,7 +2,6 @@
 
 Real-time soil moisture, temperature, humidity, and light monitoring on ESP32 with OLED display, local logging, and optional Wi-Fi/MQTT export.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](#license)
 [![PlatformIO](https://img.shields.io/badge/Platform-PlatformIO-orange)](#firmware-build--flash)
 [![ESP32](https://img.shields.io/badge/MCU-ESP32-blue)](#hardware)
 
