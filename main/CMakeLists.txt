@@ -5,4 +5,5 @@ idf_component_register(
     REQUIRES esp_adc
     REQUIRES analysis
     REQUIRES esp_timer
+    REQUIRES display_oled
 )

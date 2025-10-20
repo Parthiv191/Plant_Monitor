@@ -8,8 +8,7 @@
 #include <esp_log.h>
 #include <esp_timer.h>
 #include <driver/gpio.h>
-
-#include "display_oled.h"   // <— our new module
+#include "display_oled.h"
 
 #define SENSOR_TYPE DHT_TYPE_DHT11
 #define DHT_GPIO_PIN GPIO_NUM_26
@@ -52,6 +51,34 @@ static void init_adc(void)
     };
     ESP_ERROR_CHECK(adc_continuous_config(adc_handle, &dig_cfg));
     ESP_ERROR_CHECK(adc_continuous_start(adc_handle));
+}
+
+#include <driver/gpio.h>
+
+static inline void leds_init(void)
+{
+    gpio_config_t io = {
+        .mode = GPIO_MODE_OUTPUT,
+        .pin_bit_mask = (1ULL<<LED_STATUS) | (1ULL<<LED_ALERT),
+        .pull_down_en = 0,
+        .pull_up_en = 0,
+        .intr_type = GPIO_INTR_DISABLE
+    };
+    gpio_config(&io);
+    gpio_set_level(LED_STATUS, 0);
+    gpio_set_level(LED_ALERT, 0);
+}
+
+static inline void led_status_blink(void)
+{
+    gpio_set_level(LED_STATUS, 1);
+    vTaskDelay(pdMS_TO_TICKS(80));
+    gpio_set_level(LED_STATUS, 0);
+}
+
+static inline void led_alert_set(bool on)
+{
+    gpio_set_level(LED_ALERT, on ? 1 : 0);
 }
 
 static void parse_adc_results(uint8_t *result, uint32_t length, float *light, float *soil)
