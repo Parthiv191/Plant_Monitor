@@ -7,7 +7,7 @@ Real-time soil moisture, temperature, humidity, and light level monitoring using
 
 ## ✨ Current Features
 - **Sensors**
-  - DHT22 for temperature and humidity  
+  - DHT11 for temperature and humidity  
   - Capacitive soil moisture sensor  
   - Photoresistor for ambient light levels  
 - **Display:** Live sensor readings on 0.96" SSD1306 OLED  
@@ -47,7 +47,7 @@ flowchart LR
 | Component | Example | Interface | Notes |
 |------------|----------|------------|-------|
 | MCU | ESP32-DevKitC / WROOM | USB / 3V3 logic | Main controller |
-| Temp/Humidity | DHT22 | Digital (GPIO) | Single-wire protocol |
+| Temp/Humidity | DHT11 | Digital (GPIO) | Single-wire protocol |
 | Soil Moisture | Capacitive Sensor v2.0 | Analog (ADC) | Use 3.3V version |
 | Light Sensor | Photoresistor + 10 kΩ divider | Analog (ADC) | Calibrate for ambient range |
 | Display | SSD1306 128×64 | I²C | Address 0x3C |
@@ -134,7 +134,7 @@ plant-monitor/
 ---
 
 ## 📚 References
-- DHT22 datasheet  
+- DHT11 datasheet  
 - ESP32 ADC/I²C documentation  
 - SSD1306 display datasheet  
 - Capacitive soil sensor v2.0 resources
