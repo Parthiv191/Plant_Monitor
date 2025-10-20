@@ -1,17 +1,15 @@
 # Plant Monitor (ESP32)
 
-Real-time soil moisture, temperature, humidity, and light monitoring on ESP32 with OLED display, local logging, and optional Wi-Fi/MQTT export.
+Real-time soil moisture, temperature, humidity, and light monitoring on ESP32 with OLED display, and local logging.
 
 [![PlatformIO](https://img.shields.io/badge/Platform-PlatformIO-orange)](#firmware-build--flash)
 [![ESP32](https://img.shields.io/badge/MCU-ESP32-blue)](#hardware)
 
 ## ✨ Features
-- Live sensors: **Soil moisture**, **Temp/Humidity** (e.g., SHT31/DHT22), **Ambient Light** (e.g., BH1750/ALS).
-- **OLED status UI** (watering hints, sensor icons).
-- **Data export** via **Serial** and optional **Wi-Fi/MQTT**.
-- **On-device thresholds** & audible/visual alert (buzzer/LED optional).
+- Live sensors: **Soil moisture**, **Temp/Humidity** (DHT22), **Ambient Light** (Photoresistor).
+- **OLED status UI** (watering hints, sensor levels/icons).
+- **On-device thresholds** & visual alert (LED).
 - **Config file** on SPIFFS/LittleFS (`config.json`).
-- **Logging**: ring buffer in RAM + optional SD card.
 - **Low-power mode** (deep sleep between reads).
 
 ---
