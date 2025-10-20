@@ -38,7 +38,7 @@ flowchart LR
   PHOTO[Photoresistor] --> MCU
   SOIL[Soil Moisture Sensor] --> MCU
   MCU --> OLED[OLED Display]
-  MCU --> Led Indicators(Red:Bad Greed:Good)
+  MCU --> Led[Indicators]
 ```
 
 ---
@@ -108,18 +108,10 @@ pio device monitor -b 115200
 ## 🧰 Repo Layout
 ```
 plant-monitor/
-├─ firmware/
-│  ├─ src/               # main.cpp, sensor drivers, display logic
-│  ├─ include/
-│  ├─ platformio.ini
-│  └─ data/              # config or calibration data (planned)
-├─ hardware/
-│  ├─ schematic.pdf
-│  ├─ pcb/
-│  └─ enclosure/
-├─ docs/
-│  ├─ images/
-│  └─ wiring.md
+├─ components/           # Reusable ESP-IDF modules (e.g., DHT driver, display)
+├─ main/                 # Application entry (main.c / main.cpp)
+├─ CMakeLists.txt        # Build configuration
+├─ .gitignore
 └─ README.md
 ```
 
