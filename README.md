@@ -28,6 +28,7 @@ Real-time soil moisture, temperature, humidity, and light level monitoring using
 
 ## 📸 Demo
 Waiting on Component...
+https://www.amazon.com/HiLetgo-Serial-128X64-Display-Color/dp/B06XRBTBTB/ref=sr_1_5?dib=eyJ2IjoiMSJ9.jfH9jWnKJGKPLJ8ihGaNw2OMN5L3wf4bmehO0EuVf9NdHKRY42OjVwCbkCfFFR3hkOTy5LgbCEuItLSF0IsUMKYd6LtBXeNKtIYjBYh54imoIANBdMc_DqxIYTpnJ7bTTVtjHhSmbI-vEzVB82xm5vJLYVsyTwBnOAJLjMCev2rHtXujH_U1wDVk_4f5QD9TAwbWRnBxwsQxaWzXD4nLE4vjtCap0gUWkW192X3Dv6o.rR6GwlhFGVsj5vDNC9eDY-LIBz_4qKI9wYJeHQEZ1eU&dib_tag=se&keywords=SSD1306&qid=1761007921&sr=8-5&th=1 
 
 ---
 
