@@ -1,141 +1,162 @@
 # Plant Monitor (ESP32)
 
-Real-time soil moisture, temperature, humidity, and light level monitoring using an ESP32 microcontroller with OLED display and DHT22 + photoresistor sensors.
+Real-time soil moisture, temperature, humidity, and light level
+monitoring using an ESP32 with OLED display, Wi-Fi connectivity, and
+live web interface.
 
-[![PlatformIO](https://img.shields.io/badge/Platform-PlatformIO-orange)](#firmware-build--flash)
-[![ESP32](https://img.shields.io/badge/MCU-ESP32-blue)](#hardware)
+------------------------------------------------------------------------
 
 ## ✨ Current Features
-- **Sensors**
-  - DHT11 for temperature and humidity  
-  - Capacitive soil moisture sensor  
-  - Photoresistor for ambient light levels  
-- **Display:** Live sensor readings on 0.96" SSD1306 OLED  
-- **Threshold alerts:** Visual indicators when soil moisture or light levels fall out of range  
-- **Configurable sampling interval** via firmware constants  
-- **Calibration routine** for soil moisture sensor
 
----
+-   **Sensors**
+    -   DHT11 for temperature and humidity\
+    -   Capacitive soil moisture sensor (ADC)\
+    -   Photoresistor for ambient light (ADC)\
+-   **Continuous ADC Sampling**
+    -   Uses ESP-IDF continuous ADC driver for higher accuracy\
+    -   Averaged readings for stable light & soil values\
+-   **Smart Light Tracking**
+    -   Stores 24-hour rolling light data (48 samples)\
+    -   Computes daily average light exposure\
+-   **Display**
+    -   Live readings + status indicators on SSD1306 OLED\
+-   **Wi-Fi + Web Server**
+    -   Connects to Wi-Fi (station mode)\
+    -   Hosts HTTP server for remote monitoring\
+    -   mDNS enabled for easy local access\
+-   **Status Analysis System**
+    -   Each parameter labeled (Good / Bad)\
+    -   Drives alert logic + UI\
+-   **LED Indicators**
+    -   Status LED (heartbeat blink)\
+    -   Alert LED when any condition is not "Good"
 
-## 🧭 Planned Features
-- **Wi-Fi connectivity** for remote data monitoring  
-- **Local data storage** using SPIFFS or SD card  
-- **Web dashboard** for live visualization and configuration  
-- **MQTT support** for IoT integration  
-- **OTA firmware updates** for easy upgrades  
+------------------------------------------------------------------------
 
----
+## 🧭 Removed / Changed Features
+
+-   Removed manual calibration routine (handled via normalization)
+-   Sampling now handled via FreeRTOS task instead of fixed loop timing
+-   Sensor averaging improved (especially light)
+
+------------------------------------------------------------------------
 
 ## 📸 Demo
-Waiting on Component...
-https://www.amazon.com/HiLetgo-Serial-128X64-Display-Color/dp/B06XRBTBTB/ref=sr_1_5?dib=eyJ2IjoiMSJ9.jfH9jWnKJGKPLJ8ihGaNw2OMN5L3wf4bmehO0EuVf9NdHKRY42OjVwCbkCfFFR3hkOTy5LgbCEuItLSF0IsUMKYd6LtBXeNKtIYjBYh54imoIANBdMc_DqxIYTpnJ7bTTVtjHhSmbI-vEzVB82xm5vJLYVsyTwBnOAJLjMCev2rHtXujH_U1wDVk_4f5QD9TAwbWRnBxwsQxaWzXD4nLE4vjtCap0gUWkW192X3Dv6o.rR6GwlhFGVsj5vDNC9eDY-LIBz_4qKI9wYJeHQEZ1eU&dib_tag=se&keywords=SSD1306&qid=1761007921&sr=8-5&th=1 
 
----
+Pending hardware completion (OLED link below):
+https://www.amazon.com/HiLetgo-Serial-128X64-Display-Color/dp/B06XRBTBTB
+
+------------------------------------------------------------------------
 
 ## 🧱 System Overview
-```mermaid
+
+``` mermaid
 flowchart LR
-  DHT[DHT22 Sensor] --> MCU[ESP32]
+  DHT[DHT11 Sensor] --> MCU[ESP32]
   PHOTO[Photoresistor] --> MCU
-  SOIL[Soil Moisture Sensor] --> MCU
+  SOIL[Soil Sensor] --> MCU
   MCU --> OLED[OLED Display]
-  MCU --> Led[Indicators]
+  MCU --> LEDS[Status & Alert LEDs]
+  MCU --> WIFI[Wi-Fi + HTTP Server]
 ```
 
----
+------------------------------------------------------------------------
 
 ## 🔩 Hardware
-| Component | Example | Interface | Notes |
-|------------|----------|------------|-------|
-| MCU | ESP32-DevKitC / WROOM | USB / 3V3 logic | Main controller |
-| Temp/Humidity | DHT11 | Digital (GPIO) | Single-wire protocol |
-| Soil Moisture | Capacitive Sensor v2.0 | Analog (ADC) | Use 3.3V version |
-| Light Sensor | Photoresistor + 10 kΩ divider | Analog (ADC) | Calibrate for ambient range |
-| Display | SSD1306 128×64 | I²C | Address 0x3C |
-| Optional | Buzzer or LED | GPIO | For alerts |
 
-**Example Wiring**
-| Signal | ESP32 Pin | Notes |
-|---------|------------|-------|
-| I²C SDA | GPIO21 | OLED |
-| I²C SCL | GPIO22 | OLED |
-| Soil Sensor | GPIO34 | Analog input |
-| Photoresistor | GPIO35 | Analog input |
-| DHT22 | GPIO27 | Digital input |
+  Component        Interface           Notes
+  ---------------- ------------------- ------------------------------
+  ESP32            Main MCU            Wi-Fi enabled
+  DHT11            GPIO26              Temp & humidity
+  Soil Sensor      GPIO39 (ADC1 CH3)   Inverted moisture %
+  Light Sensor     GPIO36 (ADC1 CH0)   \% brightness
+  OLED (SSD1306)   I²C                 Live display
+  LED (Status)     GPIO2               Blinks every cycle
+  LED (Alert)      GPIO4               Turns on when issue detected
 
----
+------------------------------------------------------------------------
 
-## ⚙️ Firmware Build & Flash
-### Option A: PlatformIO (recommended)
-```bash
-# clone
-git clone https://github.com/<you>/plant-monitor.git
-cd plant-monitor/firmware
+## ⚙️ Firmware Architecture
 
-# build & flash
-pio run -t upload
+-   **FreeRTOS Task (`sensor_task`)**
+    -   Reads sensors
+    -   Processes ADC buffer
+    -   Updates rolling averages
+    -   Runs analysis
+    -   Updates OLED + LEDs
+    -   Sends data to web server
+-   **Modules**
+    -   `analysis.c` → Determines status strings\
+    -   `plant_data.c` → Stores global plant state\
+    -   `wifi_sta.c` → Wi-Fi connection\
+    -   `http_server.c` → Web dashboard backend\
+    -   `display_oled.c` → OLED rendering
 
-# monitor serial logs
-pio device monitor -b 115200
-```
+------------------------------------------------------------------------
 
-### Option B: Arduino IDE
-- Boards Manager → **ESP32** by Espressif  
-- Libraries: `Adafruit SSD1306`, `Adafruit GFX`, `DHT sensor library`, `Adafruit Unified Sensor`  
-- Open `firmware/src/main.cpp`, select board, upload, and monitor at 115200 baud  
+## 🌐 Web Interface
 
----
+-   Runs automatically when Wi-Fi connects\
+-   Accessible via:
+    -   IP address\
+    -   mDNS hostname (e.g., `plant.local`)\
+-   Displays:
+    -   Live sensor values\
+    -   Status indicators
 
-## 🧪 Calibration Procedure
-1. **Soil probe (air):** Dry the probe and record ADC value.  
-2. **Soil probe (water):** Submerge in water and record ADC value.  
-3. Update thresholds in code accordingly.  
-4. Rebuild and flash firmware.
+------------------------------------------------------------------------
 
----
+## 📤 Example Data (Internal Representation)
 
-## 📤 Example Serial Output
-```json
+``` json
 {
-  "moisture": 0.56,
-  "temp_c": 24.8,
-  "rh": 47.2,
-  "light": 320
+  "temp_c": 24.3,
+  "humidity": 48.1,
+  "light_avg": 67.5,
+  "soil": 42.0,
+  "status": {
+    "temp": "Good",
+    "humidity": "Good",
+    "light": "Low",
+    "soil": "Dry"
+  }
 }
 ```
 
----
+------------------------------------------------------------------------
 
 ## 🧰 Repo Layout
-```
-plant-monitor/
-├─ components/           # Reusable ESP-IDF modules (e.g., DHT driver, display)
-├─ main/                 # Application entry (main.c / main.cpp)
-├─ CMakeLists.txt        # Build configuration
-├─ .gitignore
-└─ README.md
-```
 
----
+    plant-monitor/
+    ├─ components/
+    ├─ main/
+    │  └─ main.c
+    ├─ CMakeLists.txt
+    └─ README.md
 
-## 🧪 Testing & Validation
-- **Serial Monitor:** Confirms sensor readouts at set interval  
-- **OLED Output:** Displays live values (°C, %, Lux, Soil %)  
-- **ADC Verification:** Compare readings under different lighting and soil conditions  
+------------------------------------------------------------------------
 
----
+## 🧪 Testing
+
+-   OLED confirms real-time updates\
+-   LED behavior validates alert logic\
+-   Serial logs show sensor + error states\
+-   Web UI verifies remote access
+
+------------------------------------------------------------------------
 
 ## 🗺️ Roadmap
-- [ ] Wi-Fi connectivity (ESP32 Wi-Fi API)  
-- [ ] SPIFFS/SD local logging  
-- [ ] Web dashboard for visualization  
-- [ ] Auto-watering relay system  
-- [ ] Power optimization with deep sleep  
 
----
+-   [ ] Data logging (SPIFFS / SD)
+-   [ ] MQTT integration
+-   [ ] OTA updates
+-   [ ] Mobile-friendly dashboard
+-   [ ] Auto-watering system
+
+------------------------------------------------------------------------
 
 ## 📚 References
-- DHT11 datasheet  
-- ESP32 ADC/I²C documentation  
-- SSD1306 display datasheet  
-- Capacitive soil sensor v2.0 resources
+
+-   ESP-IDF ADC Continuous Mode docs\
+-   DHT11 datasheet\
+-   SSD1306 datasheet
