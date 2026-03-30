@@ -6,3 +6,4 @@ sdkconfig.ci
 .devcontainer/
 .DS_Store
 esp-idf-lib/
+managed_components/

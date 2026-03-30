@@ -1,9 +1,5 @@
 idf_component_register(
-    SRCS "main.c"
+    SRCS "main.c" "plant_data.c" "wifi_sta.c" "http_server.c"
     INCLUDE_DIRS "."
-    REQUIRES dht
-    REQUIRES esp_adc
-    REQUIRES analysis
-    REQUIRES esp_timer
-    REQUIRES display_oled
+    REQUIRES analysis dht display_oled driver esp_adc esp_event esp_http_server esp_netif esp_wifi espressif__mdns nvs_flash
 )

@@ -1,0 +1,13 @@
+menu "Plant Monitor"
+    config PLANT_WIFI_SSID
+        string "WiFi SSID"
+        default ""
+        help
+            Network name (SSID) for station mode. Required for the web UI.
+
+    config PLANT_WIFI_PASSWORD
+        string "WiFi password"
+        default ""
+        help
+            WPA2/WPA3 passphrase for the network.
+endmenu

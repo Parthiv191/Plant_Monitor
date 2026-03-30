@@ -3,6 +3,13 @@
 cmake_minimum_required(VERSION 3.16)
 
 
-set(EXTRA_COMPONENT_DIRS components)
+# Only include component folders that this project actually uses.
+# This avoids scanning hundreds of unused component libraries.
+set(EXTRA_COMPONENT_DIRS
+    "components/analysis"
+    "components/display_oled"
+    "components/dht"
+    "components/esp_idf_lib_helpers"
+)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(plantmonitor)

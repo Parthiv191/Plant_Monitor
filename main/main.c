@@ -6,9 +6,13 @@
 #include <analysis.h>
 #include <esp_adc/adc_continuous.h>
 #include <esp_log.h>
-#include <esp_timer.h>
+#include <esp_err.h>
+#include <nvs_flash.h>
 #include <driver/gpio.h>
 #include "display_oled.h"
+#include "plant_data.h"
+#include "wifi_sta.h"
+#include "http_server.h"
 
 #define SENSOR_TYPE DHT_TYPE_DHT11
 #define DHT_GPIO_PIN GPIO_NUM_26
@@ -52,8 +56,6 @@ static void init_adc(void)
     ESP_ERROR_CHECK(adc_continuous_config(adc_handle, &dig_cfg));
     ESP_ERROR_CHECK(adc_continuous_start(adc_handle));
 }
-
-#include <driver/gpio.h>
 
 static inline void leds_init(void)
 {
@@ -137,6 +139,9 @@ static void sensor_task(void *arg)
         // analysis -> fills *_status strings and logs
         analyse_data(&temp_c, &humidity, &avg_light, &soil_pct);
 
+        plant_data_update(temp_c, humidity, avg_light, soil_pct,
+                          temp_status, humidity_status, light_status, soil_status);
+
         // OLED
         oled_show_readings(temp_c, humidity, avg_light, soil_pct,
                            temp_status, humidity_status, light_status, soil_status);
@@ -157,6 +162,23 @@ static void sensor_task(void *arg)
 
 void app_main(void)
 {
+    esp_err_t err = nvs_flash_init();
+    if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        err = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(err);
+
+    plant_data_init();
+
+    err = wifi_sta_init();
+    if (err == ESP_OK) {
+        ESP_ERROR_CHECK(http_server_start());
+        plant_mdns_start();
+    } else {
+        ESP_LOGW(TAG, "WiFi failed; web UI disabled (%s)", esp_err_to_name(err));
+    }
+
     init_adc();
     oled_init();
     leds_init();
