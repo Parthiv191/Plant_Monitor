@@ -7,7 +7,7 @@ Real-time soil moisture, temperature, humidity, and light level monitoring using
 
 ## ✨ Current Features
 - **Sensors**
-  - DHT22 for temperature and humidity  
+  - DHT11 for temperature and humidity  
   - Capacitive soil moisture sensor  
   - Photoresistor for ambient light levels  
 - **Display:** Live sensor readings on 0.96" SSD1306 OLED  
@@ -28,6 +28,7 @@ Real-time soil moisture, temperature, humidity, and light level monitoring using
 
 ## 📸 Demo
 Waiting on Component...
+https://www.amazon.com/HiLetgo-Serial-128X64-Display-Color/dp/B06XRBTBTB/ref=sr_1_5?dib=eyJ2IjoiMSJ9.jfH9jWnKJGKPLJ8ihGaNw2OMN5L3wf4bmehO0EuVf9NdHKRY42OjVwCbkCfFFR3hkOTy5LgbCEuItLSF0IsUMKYd6LtBXeNKtIYjBYh54imoIANBdMc_DqxIYTpnJ7bTTVtjHhSmbI-vEzVB82xm5vJLYVsyTwBnOAJLjMCev2rHtXujH_U1wDVk_4f5QD9TAwbWRnBxwsQxaWzXD4nLE4vjtCap0gUWkW192X3Dv6o.rR6GwlhFGVsj5vDNC9eDY-LIBz_4qKI9wYJeHQEZ1eU&dib_tag=se&keywords=SSD1306&qid=1761007921&sr=8-5&th=1 
 
 ---
 
@@ -47,7 +48,7 @@ flowchart LR
 | Component | Example | Interface | Notes |
 |------------|----------|------------|-------|
 | MCU | ESP32-DevKitC / WROOM | USB / 3V3 logic | Main controller |
-| Temp/Humidity | DHT22 | Digital (GPIO) | Single-wire protocol |
+| Temp/Humidity | DHT11 | Digital (GPIO) | Single-wire protocol |
 | Soil Moisture | Capacitive Sensor v2.0 | Analog (ADC) | Use 3.3V version |
 | Light Sensor | Photoresistor + 10 kΩ divider | Analog (ADC) | Calibrate for ambient range |
 | Display | SSD1306 128×64 | I²C | Address 0x3C |
@@ -134,7 +135,7 @@ plant-monitor/
 ---
 
 ## 📚 References
-- DHT22 datasheet  
+- DHT11 datasheet  
 - ESP32 ADC/I²C documentation  
 - SSD1306 display datasheet  
 - Capacitive soil sensor v2.0 resources
