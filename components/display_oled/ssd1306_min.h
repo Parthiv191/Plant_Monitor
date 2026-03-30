@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <stdbool.h>
-#include "driver/i2c.h"
+#include <driver/i2c.h>
 
 #define SSD1306_ADDR        0x3C
 #define SSD1306_WIDTH       128
